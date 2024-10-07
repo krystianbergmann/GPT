@@ -1,0 +1,38 @@
+import requests
+import json  # Adding json library to format the response
+
+# Your OpenAI API key
+api_key = 'your secret key here'
+
+# URL of the Moderation API
+url = "https://api.openai.com/v1/moderations"
+
+# Headers for the HTTP request, including authorization
+headers = {
+    "Content-Type": "application/json",
+    "Authorization": f"Bearer {api_key}"
+}
+
+# Getting input text from the user
+text = input("Enter the text to check: ")
+
+# Data to send in the POST request
+data = {
+    "input": text
+}
+
+# Sending the POST request to the Moderation API
+response = requests.post(url, headers=headers, json=data)
+
+# Checking if the response is successful
+if response.status_code == 200:
+    # Retrieving the data from the response in JSON format
+    result = response.json()
+
+    # Displaying the full JSON response in a readable format
+    formatted_response = json.dumps(result, indent=4)
+    print("Full JSON response:")
+    print(formatted_response)
+else:
+    print(f"Error in the request: {response.status_code}")
+    print("Response:", response.text)
